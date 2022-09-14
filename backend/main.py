@@ -4,11 +4,13 @@ from madapp.database import db
 from flask_security import Security, SQLAlchemySessionUserDatastore, SQLAlchemyUserDatastore
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
+from madapp import workers
 from madapp.models import user, role
 from madapp.for_security import *
 
 app = None
 api = None
+celery = None
 
 def createapp():
     currdir=os.path.abspath(os.path.dirname(__file__))
@@ -29,12 +31,22 @@ def createapp():
 
     db.init_app(app)
     api = Api(app)
+
     app.app_context().push()
+
+    celery = workers.celery
+    celery.conf.update(
+        broker_url = app.config["CELERY_BROKER_URL"],
+        result_backend = app.config["CELERY_RESULT_BACKEND"]
+    )
+    celery.Task = workers.ContextTask
+    app.app_context().push()
+
     user_datastore = SQLAlchemySessionUserDatastore(db.session, user, role)
     security = Security(app, user_datastore, register_form=ExtendedRegisterForm)
-    return(app, api)
+    return(app, api, celery)
 
-app, api = createapp()
+app, api, celery = createapp()
 jwt = JWTManager(app)
 
 from madapp.controller import *
