@@ -1,19 +1,11 @@
-// import { createApp } from 'vue'
-import Vue from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
-import router from './router/router'
+import router from './router'
 
-Vue.config.productionTip = false
+import './assets/main.css'
 
-// const app = createApp(App);
-// app.use(router);
-// app.mount('#app');
+const app = createApp(App)
 
-var app = new Vue({
-  el: '#app',
-  router: router,
-  data: {},
-  methods: {},
-  render: h => h(App)
-})
+app.use(router)
 
+app.mount('#app')
