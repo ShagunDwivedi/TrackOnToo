@@ -1,5 +1,6 @@
 import os
 from flask import Flask
+from flask_cors import CORS
 from madapp.database import db
 from flask_security import Security, SQLAlchemySessionUserDatastore, SQLAlchemyUserDatastore
 from flask_restful import Api
@@ -48,6 +49,8 @@ def createapp():
 
 app, api, celery = createapp()
 jwt = JWTManager(app)
+
+CORS(app, resources={r'/*': {'origins': '*'}})
 
 from madapp.controller import *
 from madapp.api import *
