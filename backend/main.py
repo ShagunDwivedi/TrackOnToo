@@ -35,12 +35,12 @@ def createapp():
 
     app.app_context().push()
 
-    celery = workers.celery
-    celery.conf.update(
-        broker_url = app.config["CELERY_BROKER_URL"],
-        result_backend = app.config["CELERY_RESULT_BACKEND"]
-    )
-    celery.Task = workers.ContextTask
+    #celery = workers.celery
+    #celery.conf.update(
+    #    broker_url = app.config["CELERY_BROKER_URL"],
+    #    result_backend = app.config["CELERY_RESULT_BACKEND"]
+    #)
+    #celery.Task = workers.ContextTask
     app.app_context().push()
 
     user_datastore = SQLAlchemySessionUserDatastore(db.session, user, role)

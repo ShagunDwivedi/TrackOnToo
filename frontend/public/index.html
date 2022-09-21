@@ -1,16 +1,52 @@
 <!DOCTYPE html>
 <html lang="">
   <head>
+    <style>
+      body{
+  background-color: #ffbbb1;
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+.trkname{
+    display: block;
+    padding-inline-start: 40px;
+    background-color: #653187;
+    overflow: hidden;
+    margin-top: 0px;
+    color: white;
+}
+a:link {
+  color: white;
+}
+a:visited {
+  color: white;
+}
+a:hover {
+  color: #ffbbb1;
+}
+a:active {
+  color: white;
+}
+    </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <title>TrackOn</title>
   </head>
-  <body>
+  <body class="bg">
     <noscript>
       <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
+    <div class="trkname">
+      <h1><a href="/">TrackOn</a></h1>
+    </div>
+    <br><br><br>
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
