@@ -41,7 +41,7 @@ def createapp():
     #    result_backend = app.config["CELERY_RESULT_BACKEND"]
     #)
     #celery.Task = workers.ContextTask
-    app.app_context().push()
+    #app.app_context().push()
 
     user_datastore = SQLAlchemySessionUserDatastore(db.session, user, role)
     security = Security(app, user_datastore, register_form=ExtendedRegisterForm)

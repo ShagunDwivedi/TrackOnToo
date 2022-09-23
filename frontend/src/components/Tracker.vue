@@ -1,50 +1,96 @@
 <template>
   <div>
-    <a href="/dashboard" style="margin-left: 5px">Back to Dashboard</a>
-<h1 style="margin-left: 5px">{{ tracker.trk_name }}</h1>
-<h5 style="margin-left: 5px">Tracker Description: {{ tracker.description }}</h5>
-{% if loglist|length !=0 %}
+    {{ msg }}
+    <a @click="pushDash" style="margin-left: 5px">Back to Dashboard</a>
+<h1 style="margin-left: 5px">{{ trackname }}</h1>
+<h5 style="margin-left: 5px">Tracker Description: {{ description }}</h5>
+<!--{% if loglist|length !=0 %}-->
 <!-- eslint-disable-next-line max-len -->
 <!-- img src="{{url_for('static', filename='plot.jpg')}}" style="margin-left: 15px" height=35% width=40% --><br>
-{% endif %}
-<form action="/:tracker.trk_id/addlog" method="get">
-<input class="btn" type="submit" value="Add New Log">
-</form>
+<!--{% endif %}-->
+<button class="btn" @click="addLog">Add New Log</button>
 <br>
-{% if loglist|length !=0 %}
-<ul style="color:white; background-color: #ffbbb1">
-<li>  &emsp;Last Updated  &emsp;</li>
-<li>  &emsp;Value  &emsp;</li>
+<br>
+<span v-if="loglist">
+<img src="../../../backend/static/plot.jpg" height=35% width=40%><br>
+<!--{% if loglist|length !=0 %}-->
+<ul style="color:white; background-color: #653187">
+<li>  &emsp;Last Updated  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</li>
+<li>  &emsp;Value  &emsp;&emsp;&emsp;</li>
 <li>  &emsp;&emsp;Details  &emsp;</li>
 <li style="float:right; border-right: none">&emsp;&emsp;Actions&emsp;</li>
 </ul>
 <br>
-{% for logged in loglist %}
-<ul>
-<li>{{ logged.time }}&emsp;</li>
-<li>&emsp;{{ logged.value }}&emsp;</li>
-<li>&emsp;{{ logged.note }}&emsp;</li>
+<ul v-for="logged in loglist.slice().reverse()" :key="logged">
+<li><a @click="pushNon">{{ logged.timestamp.slice(0,11) }}&emsp;</a></li>
+<li><a @click="pushNon">&emsp;{{ logged.value }}&emsp;</a></li>
+<li><a @click="pushNon">&emsp;{{ logged.note }}&emsp;</a></li>
 <div style="float:right;">
-<li><a href="/:tracker.trk_id/:logged.log_id/updatelog">Update&emsp;</a></li>
+<li><a @click="pushUpd(logged.id)">Update&emsp;</a></li>
 <!-- eslint-disable-next-line max-len -->
-<li style="float:right; border-right: none"><a href="/:tracker.trk_id/:logged.log_id/deletelog">&emsp;Delete</a></li>
+<li style="float:right; border-right: none"><a @click="pushDel(logged.id)">&emsp;Delete</a></li>
 </div>
 </ul>
 <br>
-{% endfor %}
-{% else %}
-<p style="margin-left: 5px">No Logs Yet.</p>
-{% endif %}
+</span>
+<p v-if="!loglist" style="margin-left: 5px">No Logs Yet.</p>
+
 </div>
 </template>
 
 <script>
+function json(response) {
+  return response.json();
+}
 export default {
   name: 'Tracker',
+  data() {
+    return {
+      msg: '',
+      trackid: localStorage.getItem('id'),
+      trackname: localStorage.getItem('trackname'),
+      description: localStorage.getItem('trackdesc'),
+      loglist: '',
+    };
+  },
+  mounted() {
+    fetch(`http://127.0.0.1:5000/api/tracker/${this.trackid}/logs`, {
+      method: 'get',
+      headers: {
+        Authorization: localStorage.getItem('access_token'),
+      },
+    })
+      .then(json)
+      .then((data) => {
+        if (data.status) {
+          this.loglist = '';
+          this.msg = data.status;
+        } else {
+          localStorage.setItem('loglist', JSON.stringify(data));
+          this.loglist = JSON.parse(localStorage.getItem('loglist'));
+        }
+      });
+  },
+  methods: {
+    addLog() {
+      this.$router.push(`/${this.trackid}/addlog`);
+    },
+    pushDash() {
+      this.$router.push('/dashboard');
+    },
+    pushUpd(logid) {
+      localStorage.setItem('logid', JSON.stringify(logid));
+      this.$router.push(`/${this.trackid}/${logid}/updatelog`);
+    },
+    pushDel(logid) {
+      localStorage.setItem('logid', JSON.stringify(logid));
+      this.$router.push(`/${this.trackid}/${logid}/deletelog`);
+    },
+  },
 };
 </script>
 
-<style>
+<style scoped>
         body{
     background-color: #ffbbb1;
     background-attachment: fixed;
@@ -63,40 +109,35 @@ export default {
       margin-top: 0px;
       color: white;
     }
-    a:link {
-    color: white;
-    }
-    a:visited {
-    color: white;
-    }
-    a:hover {
-    color: #ffbbb1;
-    }
-    a:active {
-    color: white;
-    }
     ul {
   list-style-type: none;
   margin: 5px;
   padding: 8px;
   background-color: #FFDAC1;
   overflow: hidden;
-  color: black;
-  width: 60%
+  color: white;
+  width: 70%
 }
-
+a:hover {
+  color:#653187;
+  cursor: pointer;
+}
 li {
   float: left;
   display: block;
   border-right: 1px solid black;
+  color: white;
 }
-
+img{
+  margin-left: 15px;
+  float: left;
+}
 li a{
   display: block;
-  color: black;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
+  color:black;
 }
 
 /* Change the link color to #111 (black) on hover */
@@ -113,7 +154,7 @@ li a:hover {
   margin-left: 5px;
 }
 .btn:hover{
-  background-color: #ffbbb1;
+  background-color: #FFDAC1;
   color: #653187;
 }
 </style>

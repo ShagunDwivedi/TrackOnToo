@@ -1,3 +1,4 @@
+from distutils.log import error
 from flask_restful import Resource, Api, fields, reqparse
 from .models import *
 from .database import db
@@ -5,6 +6,7 @@ from flask import current_app as app
 import werkzeug
 from flask import jsonify, make_response
 from flask import abort
+from .plotforapp import *
 from flask_login import current_user
 from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, utils
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
@@ -257,6 +259,7 @@ class LogsAPI(Resource):
                             'value': logone.value,
                         }
                         final_resp.append(data)
+                    plotgraph(trkr)
                     return make_response(jsonify(final_resp),200)
                 else:
                     return make_response(jsonify(msg="Not Found"), 404)

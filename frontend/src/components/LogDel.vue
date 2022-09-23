@@ -1,44 +1,46 @@
 <template>
-  <div>
-  <fieldset>
-		<h4>Enter New Tracker Details</h4>
-		<form action="/addtracker" method="post">
-			<!-- tracker name -->
-			<label for="trak_name">Enter Tracker Name:</label><br>
-				<input type="text" id="trakname" name="trakname"><br><br>
-			<!-- tracker description -->
-			<label for="trak_desc">Enter Tracker Description:</label><br>
-				<input type="text" id="trakdesc" name="trakdesc"><br><br>
-			<!-- tracker type -->
-			<label for="trak_type">Tracker Type:</label><br>
-				<select id="trak_type" name="trak_type">
-  					<option value="1">Numeric</option>
-  					<option value="2">Boolean</option>
-  					<option value="3">Multiple Choice</option>
-  					<option value="4">Time Duration</option>
-				</select>
-			<br><br>
-			<!-- option(for multi-valued tracker) -->
-			<label for="settings">If Multiple-Choice Tracker, Enter values separated by commas(,)</label><br>
-				<textarea name="settings" rows="2" cols="30">
-				</textarea><br>
-
-			<br>
-		<input class="btn" type="submit" value="Create"><br><br>
-		</form>
-
-		<br><a href="/dashboard"> Back to Dashboard</a>
-	</fieldset>
+  <div><span v-if="!msg">Deleting.....</span>
+    {{ msg }}<br>
+    <a @click="pushTrack">Back to Dash</a>
   </div>
 </template>
-
 <script>
+function json(response) {
+  return response.json();
+}
 export default {
-  name: 'Tracker_Add',
+  name: 'LogDel',
+  data() {
+    return {
+      msg: '',
+      trackid: localStorage.getItem('id'),
+      logid: localStorage.getItem('logid'),
+    };
+  },
+  mounted() {
+    fetch(`http://127.0.0.1:5000/api/tracker/${this.trackid}/logs/${this.logid}`, {
+      method: 'delete',
+      headers: {
+        Authorization: localStorage.getItem('access_token'),
+      },
+    })
+      .then(json)
+      .then((data) => {
+        if (data.msg) {
+          this.msg = data.msg;
+          this.pushTrack();
+        }
+      });
+  },
+  methods: {
+    pushTrack() {
+      this.$router.push(`/${this.trackid}`);
+    },
+  },
 };
 </script>
 
-<style>
+<style scoped>
     body{
 background-color: #ffbbb1;
 background-attachment: fixed;
@@ -57,17 +59,9 @@ margin-right: 0px;
   margin-top: 0px;
   color: white;
 }
-a:link {
-color: white;
-}
-a:visited {
-color: white;
-}
 a:hover {
-color: #ffbbb1;
-}
-a:active {
-color: white;
+color: #653187;
+cursor: pointer;
 }
 ul {
   list-style-type: none;

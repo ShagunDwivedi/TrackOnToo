@@ -4,12 +4,12 @@ import Home from '@/components/Home.vue';
 import Login from '@/components/Login.vue';
 import Register from '@/components/Register.vue';
 import Dashboard from '@/components/Dashboard.vue';
-import TrackerAdd from '@/components/Tracker_Add.vue';
-import TrackerDel from '@/components/Tracker_Del.vue';
-import TrackerUpd from '@/components/Tracker_Upd.vue';
-import LogAdd from '@/components/Log_Add.vue';
-import LogDel from '@/components/Log_Del.vue';
-import LogUpd from '@/components/Log_Upd.vue';
+import TrackerAdd from '@/components/TrackerAdd.vue';
+import TrackerDel from '@/components/TrackerDel.vue';
+import TrackerUpd from '@/components/TrackerUpd.vue';
+import LogAdd from '@/components/LogAdd.vue';
+import LogDel from '@/components/LogDel.vue';
+import LogUpd from '@/components/LogUpd.vue';
 import Tracker from '@/components/Tracker.vue';
 import Error from '@/components/Error.vue';
 
@@ -57,7 +57,7 @@ const routes = [
     component: Tracker,
   },
   {
-    path: '/addtracker',
+    path: '//addtracker',
     name: 'Add Tracker',
     component: TrackerAdd,
   },

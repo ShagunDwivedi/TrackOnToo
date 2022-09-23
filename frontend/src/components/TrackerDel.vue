@@ -1,46 +1,45 @@
 <template>
-  <div>
-    <fieldset>
-<h4>Update Tracker Details</h4>
-<form action="/:trackid/:logid/update" method="post">
-<!-- tracker name -->
-<label for="trak_name">Enter New Tracker Name:</label><br>
-<input type="text" id="trakname" name="trakname" :value="tracker.trk_name"><br><br>
-
-<!-- tracker description -->
-<label for="trak_desc">Enter New Tracker Description:</label><br>
-<input type="text" id="trakdesc" name="trakdesc" :value="tracker.description"><br><br>
-
-<!-- tracker type -->
-<label for="trak_type">Enter New Tracker Type:</label><br>
-<select id="trak_type" name="trak_type">
-<span v-for="x in track_type" :key="x">
-<option :value="x.traktypeid" v-if="tracker.trk_type==x.traktypeid" selected="selected">
-{{ x.trak_type }}
-</option>
-</span>
-</select>
-<br><br>
-<label for="settings">If Multiple-Choice Tracker, Enter values separated by commas(,)</label><br>
-<textarea name="settings" rows="2" cols="30"></textarea><br>
-<br>
-
-<br>
-<input class="btn" type="submit" value="Update"><br><br>
-</form>
-
-<br><a href="/dashboard"> Back to Dashboard</a>
-</fieldset>
-</div>
+  <div><span v-if="!msg">Deleting.....</span>
+    {{ msg }}<br>
+    <a @click="pushDash">Back to Dash</a>
+  </div>
 </template>
-
 <script>
+function json(response) {
+  return response.json();
+}
 export default {
-  name: 'Tracker_Upd',
+  name: 'TrackerDel',
+  data() {
+    return {
+      msg: '',
+      trackid: localStorage.getItem('id'),
+    };
+  },
+  mounted() {
+    fetch(`http://127.0.0.1:5000/api/tracker/${this.trackid}`, {
+      method: 'delete',
+      headers: {
+        Authorization: localStorage.getItem('access_token'),
+      },
+    })
+      .then(json)
+      .then((data) => {
+        if (data.msg) {
+          this.msg = data.msg;
+          this.$router.push('/dashboard');
+        }
+      });
+  },
+  methods: {
+    pushDash() {
+      this.$router.push('/dashboard');
+    },
+  },
 };
 </script>
 
-<style>
+<style scoped>
     body{
 background-color: #ffbbb1;
 background-attachment: fixed;
@@ -59,17 +58,9 @@ margin-right: 0px;
   margin-top: 0px;
   color: white;
 }
-a:link {
-color: white;
-}
-a:visited {
-color: white;
-}
 a:hover {
-color: #ffbbb1;
-}
-a:active {
-color: white;
+  color:#653187;
+  cursor: pointer;
 }
 ul {
   list-style-type: none;

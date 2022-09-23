@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ this.tracker }}
+    {{ msg }}
     <h1 style="margin-left: 5px">Welcome!</h1>
 <h3 style="margin-left: 5px">Your Trackers</h3>
 <button class="btn" type="submit" @click="addTrk">Add Tracker</button>
@@ -15,17 +15,17 @@
 <span v-for="trkr in this.tracker" :key="trkr">
 <br>
 <ul>
-<li><a href="/:tracker.id">{{ trkr }}&emsp;</a></li>
-<li><a href="/:tracker.id">{{ trkr.description }}&emsp;</a></li>
+<li><a @click="pushReg(trkr.id, trkr.name, trkr.description)">{{ trkr.name }}&emsp;</a></li>
+<li><a @click="pushReg(trkr.id, trkr.name, trkr.description)">{{ trkr.description }}&emsp;</a></li>
 <div style="float:right;">
-<li><a href="/:tracker.id/update">Update Tracker</a></li>
-<li style="float:right; border-right: none"><a href="/:tracker.trk_id/delete">
+<li><a @click="pushUpd(trkr.id)">Update Tracker</a></li>
+<li style="float:right; border-right: none"><a @click="pushDel(trkr.id)">
   Delete Tracker</a></li>
 </div>
 </ul>
 <br>
 </span>
-<p v-if="tracker" style="margin-left: 5px">No Trackers Yet.</p>
+<p v-if="!tracker" style="margin-left: 5px">No Trackers Yet.</p>
 
 <br><br><br><br>
 </div>
@@ -37,7 +37,12 @@ function json(response) {
 }
 export default {
   name: 'Dashboard',
-  tracker: '',
+  data() {
+    return {
+      msg: '',
+      tracker: '',
+    };
+  },
   mounted() {
     fetch('http://127.0.0.1:5000/api/trackers', {
       method: 'get',
@@ -48,7 +53,11 @@ export default {
       .then(json)
       .then((data) => {
         if (data.msg) {
+          if (data.msg === 'Token has expired') {
+            this.$router.push('/login');
+          }
           this.tracker = '';
+          this.msg = data.msg;
         } else {
           localStorage.setItem('tracker', JSON.stringify(data));
           this.tracker = JSON.parse(localStorage.getItem('tracker'));
@@ -57,7 +66,21 @@ export default {
   },
   methods: {
     addTrk() {
-      this.$router.push('/addtracker');
+      this.$router.push('//addtracker');
+    },
+    pushReg(id, name, desc) {
+      localStorage.setItem('id', JSON.stringify(id));
+      localStorage.setItem('trackname', JSON.stringify(name));
+      localStorage.setItem('trackdesc', JSON.stringify(desc));
+      this.$router.push(`/${id}`);
+    },
+    pushUpd(id) {
+      localStorage.setItem('id', JSON.stringify(id));
+      this.$router.push(`/${id}/update`);
+    },
+    pushDel(id) {
+      localStorage.setItem('id', JSON.stringify(id));
+      this.$router.push(`/${id}/delete`);
     },
   },
 };
