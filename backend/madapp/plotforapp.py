@@ -10,6 +10,7 @@ from .models import *
 def plotgraph(track):
     loglist = db.session.query(log).filter_by(trk_id=track.trk_id).order_by(log.time).all()
     tracktype = track.trk_type
+    print('its working')
     if(tracktype==1):
         plotnum(loglist,track)
     if(tracktype==2):

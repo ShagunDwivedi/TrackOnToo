@@ -4,6 +4,9 @@
     <a @click="pushDash" style="margin-left: 5px">Back to Dashboard</a>
 <h1 style="margin-left: 5px">{{ trackname }}</h1>
 <h5 style="margin-left: 5px">Tracker Description: {{ description }}</h5>
+<button class="btn" @click="sendLog" style="float: right; margin-right: 5 px">
+  Export Logs as CSV
+</button>
 <!--{% if loglist|length !=0 %}-->
 <!-- eslint-disable-next-line max-len -->
 <!-- img src="{{url_for('static', filename='plot.jpg')}}" style="margin-left: 15px" height=35% width=40% --><br>
@@ -12,7 +15,7 @@
 <br>
 <br>
 <span v-if="loglist">
-<img src="../../../backend/static/plot.jpg" height=35% width=40%><br>
+<img src='../../../backend/static/plot.jpg' height=35% width=40%><br>
 <!--{% if loglist|length !=0 %}-->
 <ul style="color:white; background-color: #653187">
 <li>  &emsp;Last Updated  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</li>
@@ -51,6 +54,8 @@ export default {
       trackname: localStorage.getItem('trackname'),
       description: localStorage.getItem('trackdesc'),
       loglist: '',
+      sauce: '../../../backend/static/plot.jpg',
+      status: '',
     };
   },
   mounted() {
@@ -85,6 +90,9 @@ export default {
     pushDel(logid) {
       localStorage.setItem('logid', JSON.stringify(logid));
       this.$router.push(`/${this.trackid}/${logid}/deletelog`);
+    },
+    sendLog() {
+      window.location.href = `http://127.0.0.1:5000/logcsv/${this.trackid}`;
     },
   },
 };

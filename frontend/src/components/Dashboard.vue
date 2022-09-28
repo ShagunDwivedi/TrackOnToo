@@ -1,8 +1,15 @@
 <template>
   <div>
     {{ msg }}
-    <h1 style="margin-left: 5px">Welcome!</h1>
-<h3 style="margin-left: 5px">Your Trackers</h3>
+    <button class="btn" @click="logOut" style="float: right; margin-right: 5 px">
+  Log Out
+</button>
+    <h1>Welcome!</h1>
+<h3>Your Trackers</h3>
+<button class="btn" @click="sendTrack" style="float: right; margin-right: 5 px">
+  Export Trackers as CSV
+</button>
+{{ status }}
 <button class="btn" type="submit" @click="addTrk">Add Tracker</button>
 <br>
 <br>
@@ -41,6 +48,8 @@ export default {
     return {
       msg: '',
       tracker: '',
+      status: '',
+      username: localStorage.getItem('username'),
     };
   },
   mounted() {
@@ -81,6 +90,13 @@ export default {
     pushDel(id) {
       localStorage.setItem('id', JSON.stringify(id));
       this.$router.push(`/${id}/delete`);
+    },
+    logOut() {
+      localStorage.removeItem('access_token');
+      this.$router.push('/');
+    },
+    sendTrack() {
+      window.location.href = `http://127.0.0.1:5000/trackercsv/${localStorage.getItem('username')}`;
     },
   },
 };

@@ -4,7 +4,7 @@
 
 ## Prerequisites
 
-NOTE: ```This won't work on Windows as we need Redis and it is not supported on Windows, instead you will need WSL or Docker, however a Linux Sytem would be best as you would be able to use all .sh files that help in setup and running```
+NOTE: ```This won't work on Windows as it needs Redis and which is not supported on Windows, instead one needs WSL or Docker.```
 
 1) [Python3](https://www.python.org/downloads/) and [Pip3](https://pypi.org/project/pip/)
 2) [NodeJS](https://nodejs.org/en/)
@@ -19,26 +19,33 @@ NOTE: ```This won't work on Windows as we need Redis and it is not supported on 
 │   ├── madapp
 │   │   ├── api.py
 │   │   ├── controller.py
-│   │   ├── for_security.py
 │   │   ├── mail.py
+│   │   ├── models.py
 │   │   ├── plotforapp.py
 │   │   ├── tasks.py
 │   │   └── workers.py
+│   ├── static
+│   │   ├── Logs.csv
+│   │   ├── plot.jpg
+│   │   └── Trackers.csv
+│   ├── templates
+│   │   └── email.htm
+│   ├── app_apis.yaml
 │   ├── celerybeat-schedule
 │   ├── trackerdb.sqlite3
-│   ├── Trackers.csv
-│   ├── Logs.csv
 │   ├── local_beat.sh
 │   ├── local_run.sh
 │   ├── local_setup.sh
-│   ├── local_worker.sh
+│   ├── local_workers.sh
 │   ├── main.py
+│   ├── README.md
 │   └── requirements.txt
 ├── frontend
 │   ├── babel.config.js
 │   ├── package.json
 │   ├── package-lock.json
 │   ├── public
+│   │   ├── favicon.ico
 │   │   └── index.html
 │   ├── README.md
 │   ├── src
@@ -88,19 +95,19 @@ NOTE: ```This won't work on Windows as we need Redis and it is not supported on 
     ```
 
   * ```bash
-    source  localsetup.sh
+    source  local_setup.sh
     ```
 
   * ```bash
-    source localrun.sh
+    source local_run.sh
     ```
 
   * ```bash
-    source localbeat.sh
+    source local_beat.sh
     ```
 
   * ```bash
-    source localworker.sh
+    source local_workers.sh
     ```
 
 * Setting up frontend:
@@ -110,7 +117,7 @@ NOTE: ```This won't work on Windows as we need Redis and it is not supported on 
     ```
 
   * ```javascript
-    npm i
+    npm install
     ```
 
   * ```javascript
@@ -140,12 +147,13 @@ NOTE: ```This won't work on Windows as we need Redis and it is not supported on 
 * Secure Login Using JWT
 * Tracker Management using APIs
 * Export a Tracker as a CSV (Asynchronous Task)
+* Export Logs as a CSV (Asynchronous Task)
 * Log into Tracker
-* Daily Scheduled Reminders
+* Daily Scheduled Reminders as mails
+* Sends Monthly Progress Report as mails
 
 ## To-Do's
 
-* Add feature to import a CSV to create tracker
-* Add Jinja Template to Mails
 * Send Monthly Progress Report as PDF
+* Add Import Option for Trackers and Logs
 * Improve UI / Add Animations for Tracker Review

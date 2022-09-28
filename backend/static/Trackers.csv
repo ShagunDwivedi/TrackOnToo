@@ -1,0 +1,8 @@
+id,name,description,type,settings
+34,Numeric,Numeric,1,
+36,Can Change Tracker Type,Time Span now,4,
+54,Mood Tracker,Mood ,2,
+56,Boolean,Boolean type tracker,2,
+58,Multi Choice,MultiChoice,3,"ABC,  BC,  C"
+61,new,new yaar,2,
+62,newww,neww,1,

@@ -13,6 +13,14 @@ class log(db.Model):
     time = db.Column(db.DateTime(timezone=True), server_default=func.now())
     note = db.Column(db.String)
 
+    def toJson(self):
+        return {
+            "id":self.log_id,
+            "value" :  self.value,
+            "time" :  self.time,
+            "note" :  self.note,
+        }
+
 #multiplechoice stores the values for multiple choice trackers
 class multiplechoice(db.Model):
     __tablename__ = 'multiplechoice'
@@ -28,6 +36,15 @@ class tracker(db.Model):
     trk_type = db.Column(db.Integer, nullable=False)
     settings = db.Column(db.String)
     user_id = db.Column(db.String, nullable=False)
+
+    def toJson(self):
+        return {
+            "id":self.trk_id,
+            "name" :  self.trk_name,
+            "description" :  self.description,
+            "type" :  self.trk_type,
+            "settings" :  self.settings
+        }
 
 #trak_type stores details about the types of trackers available
 class trak_type(db.Model):
