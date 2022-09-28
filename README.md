@@ -137,7 +137,7 @@ NOTE: ```This won't work on Windows as it needs Redis and which is not supported
 * API : ```Flask Restful```
 * Authentication : ```JWT token```
 * Database : ```Sqlite3```
-* ORM : ```Flask-SQL Alchemy```
+* ORM : ```Flask-SQLAlchemy```
 * Cache : ```Redis```
 * Message Broker : ```Redis```
 * Task-Queue : ```Celery```
