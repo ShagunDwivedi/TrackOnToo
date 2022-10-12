@@ -13,7 +13,7 @@ else
 fi
 
 # Activate virtual env
-. .env/bin/activate
+#. .env/bin/activate
 export ENV=development
 python3 main.py
 deactivate

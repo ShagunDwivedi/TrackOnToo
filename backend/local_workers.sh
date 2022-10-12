@@ -7,7 +7,7 @@ else
     exit N;
 fi;
 
-. .env/bin/activate;
+#. .env/bin/activate;
 
 export FLASK_ENV=development
 celery -A main.celery worker -l info;

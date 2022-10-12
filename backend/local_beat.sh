@@ -6,7 +6,7 @@ else
     echo "No virtual environment was found"
     exit N
 fi
-. .env/bin/activate
+#. .env/bin/activate
 export FLASK_ENV=development
 celery -A main.celery beat --max-interval 1 -l info
 echo 'ok'

@@ -30,7 +30,6 @@ NOTE: ```This won't work on Windows as it needs Redis and which is not supported
 │   │   └── Trackers.csv
 │   ├── templates
 │   │   └── email.htm
-│   ├── app_apis.yaml
 │   ├── celerybeat-schedule
 │   ├── trackerdb.sqlite3
 │   ├── local_beat.sh
@@ -83,6 +82,7 @@ NOTE: ```This won't work on Windows as it needs Redis and which is not supported
 │   │       ├── TrackerDel.vue
 │   │       └── TrackerUpd.vue
 │   └── .editorconfig
+├── app_apis.yaml
 └── README.md
 ```
 
