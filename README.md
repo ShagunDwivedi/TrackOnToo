@@ -150,10 +150,10 @@ NOTE: ```This won't work on Windows as it needs Redis and which is not supported
 * Export Logs as a CSV (Asynchronous Task)
 * Log into Tracker
 * Daily Scheduled Reminders as mails
-* Sends Monthly Progress Report as mails
+* Sends Monthly Progress Report PDF as mails
 
 ## To-Do's
 
-* Send Monthly Progress Report as PDF
 * Add Import Option for Trackers and Logs
 * Improve UI / Add Animations for Tracker Review
+* Create trendline using frontend OR [fix](https://blog.lichter.io/posts/dynamic-images-vue-nuxt/) the image loading issue.
